@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-C:\Users\C00240102\Desktop\collision experiments\CollisionDetection\Source.cpp(37,15): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\C00240102\Desktop\collision experiments\CollisionDetection\Source.cpp(45,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  CollisionDetection.vcxproj -> C:\Users\C00240102\Desktop\collision experiments\Debug\CollisionDetection.exe
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part 1 - collision experiments\CollisionDetection\Source.cpp(45,15): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part 1 - collision experiments\CollisionDetection\Source.cpp(53,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  CollisionDetection.vcxproj -> C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part 1 - collision experiments\Debug\CollisionDetection.exe

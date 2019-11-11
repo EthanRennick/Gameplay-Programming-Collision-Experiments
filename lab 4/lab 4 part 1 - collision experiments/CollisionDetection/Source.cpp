@@ -12,6 +12,14 @@ public:
 	}
 };
 
+class Box 
+{ public:
+	Point p; 
+	int w; 
+	int h; 
+	void print() { } 
+};
+
 class Circle {
 public:
 	Point p;
@@ -65,19 +73,32 @@ int main() {
 	npc_circle.r = rand() % 2 + 1;
 
 
+	//stuff i've done
+	//circle to point collision
+	Circle enemy_circle;
+	enemy_circle.p.x = rand() % 10 + 1;
+	enemy_circle.p.y = rand() % 10 + 1;
+	enemy_circle.r = rand() % 2 + 1;
+
+
+	Point enemy_point;
+	enemy_point.x = rand() % 10 + 1;
+	enemy_point.y = rand() % 10 + 1;
+
+
 	while (true) {
 
 		// Point Collision check
 		if (calculate_hypotenuse(player_point, npc_point) == 0)
 		{
-			std::cout << "Point Collision" << std::endl;
+			std::cout << "Point to Point Collision" << std::endl;
 			player_point.print();
 			npc_point.print();
 			std::cin.get();
 		}
 		else
 		{
-			std::cout << "No Collision" << std::endl;
+			std::cout << "No Point to Point Collision" << std::endl;
 			player_point.print();
 			npc_point.print();
 		}
@@ -88,14 +109,14 @@ int main() {
 		// Circle Collision check
 		if (calculate_hypotenuse(player_circle.p, npc_circle.p) < (player_circle.r + npc_circle.r))
 		{
-			std::cout << "Circle Collision" << std::endl;
+			std::cout << "Circle to Circle Collision" << std::endl;
 			player_circle.print();
 			npc_circle.print();
 			std::cin.get();
 		}
 		else
 		{
-			std::cout << "No Collision" << std::endl;
+			std::cout << "No Circle to Circle Collision" << std::endl;
 			player_circle.print();
 			npc_circle.print();
 		}
@@ -103,6 +124,20 @@ int main() {
 		player_circle.p.x = rand() % 10 + 1;
 		player_circle.p.y = rand() % 10 + 1;
 
+
+		if (calculate_hypotenuse(enemy_circle.p, enemy_point) < (enemy_circle.r))
+		{
+			std::cout << "Circle to Point Collision" << std::endl;
+			enemy_circle.print();
+			enemy_point.print();
+			std::cin.get();
+		}
+		else
+		{
+			std::cout << "No Circle to Point Collision" << std::endl;
+			enemy_circle.print();
+			enemy_point.print();
+		}
 	}
 
 	return 0;
