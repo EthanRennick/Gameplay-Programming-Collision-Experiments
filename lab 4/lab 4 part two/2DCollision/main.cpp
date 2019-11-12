@@ -8,6 +8,7 @@
 #include <NPC.h>
 #include <Input.h>
 #include <Debug.h>
+#include "BoundingBox.h"
 
 using namespace std;
 
@@ -15,6 +16,9 @@ int main()
 {
 	// Create the main window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+
+	BoundingBox boundBox;
+	boundBox.boxBody.setSize(sf::Vector2f(90, 90));
 
 	// Load a NPC's sprites to display
 	sf::Texture npc_texture;
@@ -77,6 +81,9 @@ int main()
 
 	// Direction of movement of NPC
 	sf::Vector2f direction(0.1f, 0.2f);
+
+	player.getAnimatedSprite().setColor(sf::Color(0, 255, 0));
+
 	
 	// Start the game loop
 	while (window.isOpen())
@@ -161,6 +168,7 @@ int main()
 			}
 		}
 
+		boundBox.boxBody.setPosition(player.getAnimatedSprite().getPosition().x -3, player.getAnimatedSprite().getPosition().y - 3);
 		// Handle input to Player
 		player.handleInput(input);
 
@@ -174,21 +182,21 @@ int main()
 		result = c2AABBtoAABB(aabb_player, aabb_npc);
 		cout << ((result != 0) ? ("Collision") : "") << endl;
 		if (result){
-			player.getAnimatedSprite().setColor(sf::Color(255,0,0));
+			boundBox.boxBody.setOutlineColor(sf::Color(255, 0, 0));
 		}
 		else {
-			player.getAnimatedSprite().setColor(sf::Color(0, 255, 0));
+			boundBox.boxBody.setOutlineColor(sf::Color::White);
 		}
 
 		// Clear screen
 		window.clear();
+		window.draw(boundBox.boxBody);
 
 		// Draw the Players Current Animated Sprite
 		window.draw(player.getAnimatedSprite());
 
 		// Draw the NPC's Current Animated Sprite
 		window.draw(npc.getAnimatedSprite());
-
 		// Update the window
 		window.display();
 	}

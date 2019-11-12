@@ -84,6 +84,9 @@
     <ClInclude Include="PlayerFSM.h">
       <Filter>Header Files\FSM</Filter>
     </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="PlayerFSM.cpp">
       <Filter>Source Files\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

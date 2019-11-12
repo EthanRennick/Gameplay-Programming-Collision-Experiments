@@ -57,4 +57,5 @@ void Player::update()
 {
 	//std::cout << "Handle Update" << std::endl;
 	m_animated_sprite.update();
+
 }
