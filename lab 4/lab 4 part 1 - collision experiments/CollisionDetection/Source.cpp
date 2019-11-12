@@ -17,7 +17,7 @@ class Box
 	Point p; 
 	int w; 
 	int h; 
-	void print() { } 
+	void print() { std::cout << "Width: " << w << "Height: " << h << "x: " << p.x << "y: " << p.y << std::endl; }
 };
 
 class Circle {
@@ -47,6 +47,13 @@ int calculate_hypotenuse(Point a, Point b) {
 	return result;
 }
 
+bool boxToBox(Box t_boxA, Box t_boxB)
+{ 
+	return t_boxA.p.x < t_boxB.p.x + t_boxB.w &&
+		t_boxA.p.x + t_boxA.w > t_boxB.p.x &&
+		t_boxA.p.y < t_boxB.p.y + t_boxB.h &&
+		t_boxA.p.y + t_boxA.h > t_boxB.p.y;
+}
 
 int main() {
 
@@ -85,6 +92,17 @@ int main() {
 	enemy_point.x = rand() % 10 + 1;
 	enemy_point.y = rand() % 10 + 1;
 
+	Box boxA;
+	boxA.h= rand() % 10 + 1;
+	boxA.w= rand() % 10 + 1;
+	boxA.p.x = rand() % 10 + 1;
+	boxA.p.y = rand() % 10 + 1;
+
+	Box boxB;
+	boxB.h = rand() % 10 + 1;
+	boxB.w = rand() % 10 + 1;
+	boxB.p.x = rand() % 10 + 1;
+	boxB.p.y = rand() % 10 + 1;
 
 	while (true) {
 
@@ -137,6 +155,21 @@ int main() {
 			std::cout << "No Circle to Point Collision" << std::endl;
 			enemy_circle.print();
 			enemy_point.print();
+		}
+
+
+		if (boxToBox(boxA, boxB))
+		{
+			std::cout << "Box to Box Collision" << std::endl;
+			boxA.print();
+			boxB.print();
+			std::cin.get();
+		}
+		else
+		{
+			std::cout << "No Box to Box Collision" << std::endl;
+			boxA.print();
+			boxB.print();
 		}
 	}
 
