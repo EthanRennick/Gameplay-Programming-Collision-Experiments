@@ -85,7 +85,7 @@
       <Filter>Header Files\FSM</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +120,7 @@
       <Filter>Source Files\FSM</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

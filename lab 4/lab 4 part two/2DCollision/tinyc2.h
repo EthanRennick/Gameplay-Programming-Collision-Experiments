@@ -185,9 +185,9 @@ typedef struct
 // a capsule is defined as a line segment (from a to b) and radius r
 typedef struct
 {
-	c2v a;
-	c2v b;
-	float r;
+	c2v a;  //point a
+	c2v b; //point b
+	float r; //radius
 } c2Capsule;
 
 typedef struct

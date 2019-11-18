@@ -20,6 +20,45 @@ int main()
 	BoundingBox boundBox;
 	boundBox.boxBody.setSize(sf::Vector2f(90, 90));
 
+	BoundingBox boundBox2;
+	boundBox2.boxBody.setSize(sf::Vector2f(90, 90));
+
+	//making a capsule
+	sf::CircleShape capsuleBottom;
+	sf::CircleShape capsuleCap;
+	sf::RectangleShape capsuleBody;
+
+	capsuleCap.setRadius(10);
+	capsuleBottom.setRadius(10);
+	capsuleBody.setSize(sf::Vector2f(20, 40));
+
+	capsuleCap.setFillColor(sf::Color::Black);
+	capsuleCap.setOutlineColor(sf::Color::White);
+	capsuleCap.setOutlineThickness(3);
+
+	capsuleBottom.setFillColor(sf::Color::Black);
+	capsuleBottom.setOutlineColor(sf::Color::White);
+	capsuleBottom.setOutlineThickness(3);
+
+	capsuleBody.setFillColor(sf::Color::Black);
+	capsuleBody.setOutlineColor(sf::Color::White);
+	capsuleBody.setOutlineThickness(3);
+
+	capsuleCap.setPosition(50,10);
+	capsuleBody.setPosition(50, 20);
+	capsuleBottom.setPosition(50, 50);
+
+
+	//Polygon
+	sf::ConvexShape triangle;
+	triangle.setPointCount(3);
+	triangle.setPoint(0, sf::Vector2f(100, 20));
+	triangle.setPoint(1, sf::Vector2f(100, 60));
+	triangle.setPoint(2, sf::Vector2f(150, 40));
+	triangle.setOutlineColor(sf::Color::White);
+	triangle.setOutlineThickness(3);
+	triangle.setFillColor(sf::Color::Black);
+
 	// Load a NPC's sprites to display
 	sf::Texture npc_texture;
 	if (!npc_texture.loadFromFile("assets\\grid.png")) {
@@ -169,6 +208,8 @@ int main()
 		}
 
 		boundBox.boxBody.setPosition(player.getAnimatedSprite().getPosition().x -3, player.getAnimatedSprite().getPosition().y - 3);
+		boundBox2.boxBody.setPosition(npc.getAnimatedSprite().getPosition().x - 3, npc.getAnimatedSprite().getPosition().y - 3);
+
 		// Handle input to Player
 		player.handleInput(input);
 
@@ -180,23 +221,51 @@ int main()
 
 		// Check for collisions
 		result = c2AABBtoAABB(aabb_player, aabb_npc);
-		cout << ((result != 0) ? ("Collision") : "") << endl;
 		if (result){
 			boundBox.boxBody.setOutlineColor(sf::Color(255, 0, 0));
+			boundBox2.boxBody.setOutlineColor(sf::Color(255, 0, 0));
 		}
 		else {
 			boundBox.boxBody.setOutlineColor(sf::Color::White);
+			boundBox2.boxBody.setOutlineColor(sf::Color::White);
+
 		}
 
+		if (boundBox.boxBody.getGlobalBounds().intersects(capsuleCap.getGlobalBounds()) ||
+			boundBox.boxBody.getGlobalBounds().intersects(capsuleBody.getGlobalBounds()) ||
+			boundBox.boxBody.getGlobalBounds().intersects(capsuleBottom.getGlobalBounds()))
+		{
+			capsuleCap.setOutlineColor(sf::Color::Red);
+			capsuleBody.setOutlineColor(sf::Color::Red);
+			capsuleBottom.setOutlineColor(sf::Color::Red);
+		}
+		else
+		{
+			capsuleCap.setOutlineColor(sf::Color::White);
+			capsuleBody.setOutlineColor(sf::Color::White);
+			capsuleBottom.setOutlineColor(sf::Color::White);
+		}
+
+		if (boundBox.boxBody.getGlobalBounds().intersects(triangle.getGlobalBounds()))
+		{
+			triangle.setOutlineColor(sf::Color::Red);
+		}
+		else
+		{
+			triangle.setOutlineColor(sf::Color::White);
+		}
 		// Clear screen
 		window.clear();
 		window.draw(boundBox.boxBody);
+		window.draw(boundBox2.boxBody);
 
-		// Draw the Players Current Animated Sprite
-		window.draw(player.getAnimatedSprite());
+		window.draw(capsuleCap);
+		window.draw(capsuleBottom);
+		window.draw(capsuleBody);
 
-		// Draw the NPC's Current Animated Sprite
-		window.draw(npc.getAnimatedSprite());
+		window.draw(triangle);
+		
+	
 		// Update the window
 		window.display();
 	}
