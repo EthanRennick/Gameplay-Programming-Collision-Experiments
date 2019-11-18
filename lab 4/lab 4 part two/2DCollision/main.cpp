@@ -48,6 +48,21 @@ int main()
 	capsuleBody.setPosition(50, 20);
 	capsuleBottom.setPosition(50, 50);
 
+	c2Capsule capsule;
+	capsule.a = c2V(capsuleBody.getPosition().x, capsuleBody.getPosition().y);
+	capsule.b = c2V(capsuleBody.getPosition().x + 20, capsuleBody.getPosition().y + 40);
+	capsule.r = 10;
+	
+
+
+	//sf::Vertex ray1[] =
+	//{
+	//	sf::Vertex(sf::Vector2f(180, 10)),
+	//	sf::Vertex(sf::Vector2f(180, 50))
+	//};
+
+	c2Ray ray1;
+	
 
 	//Polygon
 	sf::ConvexShape triangle;
@@ -58,6 +73,7 @@ int main()
 	triangle.setOutlineColor(sf::Color::White);
 	triangle.setOutlineThickness(3);
 	triangle.setFillColor(sf::Color::Black);
+
 
 	// Load a NPC's sprites to display
 	sf::Texture npc_texture;
@@ -231,9 +247,8 @@ int main()
 
 		}
 
-		if (boundBox.boxBody.getGlobalBounds().intersects(capsuleCap.getGlobalBounds()) ||
-			boundBox.boxBody.getGlobalBounds().intersects(capsuleBody.getGlobalBounds()) ||
-			boundBox.boxBody.getGlobalBounds().intersects(capsuleBottom.getGlobalBounds()))
+		result = c2AABBtoCapsule(aabb_player, capsule);
+		if (result)
 		{
 			capsuleCap.setOutlineColor(sf::Color::Red);
 			capsuleBody.setOutlineColor(sf::Color::Red);
@@ -254,6 +269,7 @@ int main()
 		{
 			triangle.setOutlineColor(sf::Color::White);
 		}
+
 		// Clear screen
 		window.clear();
 		window.draw(boundBox.boxBody);
@@ -265,7 +281,8 @@ int main()
 
 		window.draw(triangle);
 		
-	
+		window.draw(ray1, 2, sf::Lines);
+
 		// Update the window
 		window.display();
 	}
