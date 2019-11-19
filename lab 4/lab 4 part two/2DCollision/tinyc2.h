@@ -172,8 +172,8 @@ typedef struct
 
 typedef struct
 {
-	c2v p;
-	float r;
+	c2v p; //position?
+	float r; //radius?
 } c2Circle;
 
 typedef struct

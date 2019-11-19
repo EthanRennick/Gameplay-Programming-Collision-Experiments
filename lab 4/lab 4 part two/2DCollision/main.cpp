@@ -44,7 +44,7 @@ int main()
 	capsuleBody.setOutlineColor(sf::Color::White);
 	capsuleBody.setOutlineThickness(3);
 
-	capsuleCap.setPosition(50,10);
+	capsuleCap.setPosition(50, 10);
 	capsuleBody.setPosition(50, 20);
 	capsuleBottom.setPosition(50, 50);
 
@@ -52,16 +52,31 @@ int main()
 	capsule.a = c2V(capsuleBody.getPosition().x, capsuleBody.getPosition().y);
 	capsule.b = c2V(capsuleBody.getPosition().x + 20, capsuleBody.getPosition().y + 40);
 	capsule.r = 10;
-	
 
+	sf::Vector2f lineA {180, 10};
+	sf::Vector2f lineB{ 180, 50 };
 
-	//sf::Vertex ray1[] =
-	//{
-	//	sf::Vertex(sf::Vector2f(180, 10)),
-	//	sf::Vertex(sf::Vector2f(180, 50))
-	//};
+	sf::Vector2f dv = lineB - lineA;
 
+	float normalised = 0.0f;
+
+	normalised = sqrt((dv.x * dv.x) + (dv.y * dv.y));
+	sf::Vector2f unit;
+	unit = { dv / normalised };
+
+	sf::Vertex ray[] =
+	{
+		sf::Vertex(lineA),
+		sf::Vertex(lineB)
+	};
+
+	c2Raycast raycast;
 	c2Ray ray1;
+	ray1.p = { lineA.x,lineA.y };
+	ray1.t = normalised;
+	ray1.d = { unit.x,unit.y };
+
+
 	
 
 	//Polygon
@@ -81,6 +96,43 @@ int main()
 		DEBUG_MSG("Failed to load file");
 		return EXIT_FAILURE;
 	}
+
+	//bool to control which shape we are
+	bool circle = false;
+	bool box = true;
+
+	//circle
+	c2Circle circleman;
+	c2v circlePos;
+	circlePos.x = 200;
+	circlePos.y = 20;
+	circleman.p = circlePos;
+	circleman.r = 9;
+
+	sf::CircleShape circleBro;
+	circleBro.setPosition(200,20);
+	circleBro.setFillColor(sf::Color::Black);
+	circleBro.setOutlineColor(sf::Color::White);
+	circleBro.setOutlineThickness(3);
+	circleBro.setRadius(9);
+
+	//circle
+	c2Circle circleman2;
+	c2v circlePos2;
+	circlePos2.x = 250;
+	circlePos2.y = 20;
+	circleman2.p = circlePos2;
+	circleman2.r = 9;
+
+	sf::CircleShape circleBro2;
+	circleBro2.setPosition(250, 20);
+	circleBro2.setFillColor(sf::Color::Black);
+	circleBro2.setOutlineColor(sf::Color::White);
+	circleBro2.setOutlineThickness(3);
+	circleBro2.setRadius(9);
+	
+	
+
 
 	// Load a mouse texture to display
 	sf::Texture player_texture;
@@ -166,6 +218,21 @@ int main()
 			move_to.y = 600 - npc.getAnimatedSprite().getGlobalBounds().height;
 		}
 		
+		if (!box)
+		{
+			circlePos.x = sf::Mouse::getPosition(window).x;
+			circlePos.y = sf::Mouse::getPosition(window).y;
+			circleman.p = circlePos;
+
+			circleBro.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
+		}
+		else
+		{
+			circlePos.x = 200;
+			circlePos.y = 20;
+			circleman.p = circlePos;
+			circleBro.setPosition(200, 20);
+		}
 		npc.getAnimatedSprite().setPosition(move_to);
 
 		// Update NPC AABB set x and y
@@ -212,6 +279,19 @@ int main()
 				{
 					input.setCurrent(Input::Action::RIGHT);
 				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				{
+					if (box)
+					{
+						circle = true;
+						box = false;
+					}
+					else
+					{
+						circle = false;
+						box = true;
+					}
+				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				{
 					input.setCurrent(Input::Action::UP);
@@ -236,43 +316,117 @@ int main()
 		npc.update();
 
 		// Check for collisions
-		result = c2AABBtoAABB(aabb_player, aabb_npc);
-		if (result){
-			boundBox.boxBody.setOutlineColor(sf::Color(255, 0, 0));
-			boundBox2.boxBody.setOutlineColor(sf::Color(255, 0, 0));
-		}
-		else {
-			boundBox.boxBody.setOutlineColor(sf::Color::White);
-			boundBox2.boxBody.setOutlineColor(sf::Color::White);
+		if (box)
+		{
+			result = c2AABBtoAABB(aabb_player, aabb_npc);
+			if (result) {
+				boundBox.boxBody.setOutlineColor(sf::Color(255, 0, 0));
+				boundBox2.boxBody.setOutlineColor(sf::Color(255, 0, 0));
+			}
+			else {
+				boundBox.boxBody.setOutlineColor(sf::Color::White);
+				boundBox2.boxBody.setOutlineColor(sf::Color::White);
 
-		}
+			}
 
-		result = c2AABBtoCapsule(aabb_player, capsule);
-		if (result)
-		{
-			capsuleCap.setOutlineColor(sf::Color::Red);
-			capsuleBody.setOutlineColor(sf::Color::Red);
-			capsuleBottom.setOutlineColor(sf::Color::Red);
-		}
-		else
-		{
-			capsuleCap.setOutlineColor(sf::Color::White);
-			capsuleBody.setOutlineColor(sf::Color::White);
-			capsuleBottom.setOutlineColor(sf::Color::White);
-		}
+			result = c2AABBtoCapsule(aabb_player, capsule);
+			if (result)
+			{
+				capsuleCap.setOutlineColor(sf::Color::Red);
+				capsuleBody.setOutlineColor(sf::Color::Red);
+				capsuleBottom.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				capsuleCap.setOutlineColor(sf::Color::White);
+				capsuleBody.setOutlineColor(sf::Color::White);
+				capsuleBottom.setOutlineColor(sf::Color::White);
+			}
+			if (boundBox.boxBody.getGlobalBounds().intersects(triangle.getGlobalBounds()))
+			{
+				triangle.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				triangle.setOutlineColor(sf::Color::White);
+			}
+			result = c2RaytoAABB(ray1, aabb_player, &raycast);
+			if (result)
+			{
+				ray->color = (sf::Color::Red);
+			}
+			else
+			{
+				ray->color = (sf::Color::White);
+			}
 
-		if (boundBox.boxBody.getGlobalBounds().intersects(triangle.getGlobalBounds()))
-		{
-			triangle.setOutlineColor(sf::Color::Red);
+			result = c2CircletoAABB(circleman, aabb_player);
+			if (result)
+			{
+				circleBro.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				circleBro.setOutlineColor(sf::Color::White);
+			}
 		}
-		else
+		
+		if (circle)
 		{
-			triangle.setOutlineColor(sf::Color::White);
+			result = c2CircletoAABB(circleman, aabb_npc);
+			if (result)
+			{
+				boundBox2.boxBody.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				boundBox2.boxBody.setOutlineColor(sf::Color::White);
+			}
+
+			result = c2CircletoCircle(circleman, circleman2);
+			if (result)
+			{
+				circleBro2.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				circleBro2.setOutlineColor(sf::Color::White);
+			}
+
+			result = c2RaytoCircle(ray1, circleman, &raycast);
+			if (result)
+			{
+				ray->color = (sf::Color::Red);
+			}
+			else
+			{
+				ray->color = (sf::Color::White);
+			}
+
+			result = c2CircletoCapsule(circleman, capsule);
+			if (result)
+			{
+				capsuleCap.setOutlineColor(sf::Color::Red);
+				capsuleBody.setOutlineColor(sf::Color::Red);
+				capsuleBottom.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				capsuleCap.setOutlineColor(sf::Color::White);
+				capsuleBody.setOutlineColor(sf::Color::White);
+				capsuleBottom.setOutlineColor(sf::Color::White);
+			}
 		}
+		
+		
+	
 
 		// Clear screen
 		window.clear();
-		window.draw(boundBox.boxBody);
+		if(box)
+		{
+			window.draw(boundBox.boxBody);
+		}
 		window.draw(boundBox2.boxBody);
 
 		window.draw(capsuleCap);
@@ -281,7 +435,9 @@ int main()
 
 		window.draw(triangle);
 		
-		window.draw(ray1, 2, sf::Lines);
+		window.draw(ray, 2, sf::Lines);
+		window.draw(circleBro);
+		window.draw(circleBro2);
 
 		// Update the window
 		window.display();

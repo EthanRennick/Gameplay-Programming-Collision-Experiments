@@ -1,2 +1,12 @@
 ﻿  main.cpp
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(223,48): warning C4244:  '=': conversion from 'T' to 'float', possible loss of data
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(223,48): warning C4244:         with
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(223,48): warning C4244:         [
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(223,48): warning C4244:             T=int
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(223,48): warning C4244:         ]
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(224,48): warning C4244:  '=': conversion from 'T' to 'float', possible loss of data
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(224,48): warning C4244:         with
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(224,48): warning C4244:         [
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(224,48): warning C4244:             T=int
+C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\2DCollision\main.cpp(224,48): warning C4244:         ]
   2DCollision.vcxproj -> C:\Users\C00240102\Desktop\Lab-4---Collision-Experiments\lab 4\lab 4 part two\Debug\2DCollision.exe
