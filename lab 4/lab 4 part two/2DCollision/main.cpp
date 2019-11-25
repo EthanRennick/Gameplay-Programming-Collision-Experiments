@@ -53,6 +53,8 @@ int main()
 	capsule.b = c2V(capsuleBody.getPosition().x + 20, capsuleBody.getPosition().y + 40);
 	capsule.r = 10;
 
+	//ray 1
+
 	sf::Vector2f lineA {180, 10};
 	sf::Vector2f lineB{ 180, 50 };
 
@@ -76,8 +78,29 @@ int main()
 	ray1.t = normalised;
 	ray1.d = { unit.x,unit.y };
 
+	//ray 2
+	sf::Vector2f lineA2{ 200, 200 };
+	sf::Vector2f lineB2{ 300, 200 };
 
-	
+	sf::Vector2f dv2 = lineB - lineA;
+
+	float normalised2 = 0.0f;
+
+	normalised2 = sqrt((dv2.x * dv2.x) + (dv2.y * dv2.y));
+	sf::Vector2f unit2;
+	unit2 = { dv2 / normalised2 };
+
+	sf::Vertex rayline[] =
+	{
+		sf::Vertex(lineA2),
+		sf::Vertex(lineB2)
+	};
+
+	c2Raycast raycast2;
+	c2Ray ray2;
+	ray2.p = { lineA2.x,lineA2.y };
+	ray2.t = normalised2;
+	ray2.d = { unit2.x,unit2.y };
 
 	//Polygon
 	sf::ConvexShape triangle;
@@ -100,6 +123,7 @@ int main()
 	//bool to control which shape we are
 	bool circle = false;
 	bool box = true;
+	bool rayBool = false;
 
 	//circle
 	c2Circle circleman;
@@ -218,7 +242,7 @@ int main()
 			move_to.y = 600 - npc.getAnimatedSprite().getGlobalBounds().height;
 		}
 		
-		if (!box)
+		if (circle)
 		{
 			circlePos.x = sf::Mouse::getPosition(window).x;
 			circlePos.y = sf::Mouse::getPosition(window).y;
@@ -279,18 +303,94 @@ int main()
 				{
 					input.setCurrent(Input::Action::RIGHT);
 				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 				{
-					if (box)
+					box = true;
+					circle = false;
+					rayBool = false;
+
+					//ray 2
+					lineA2={ 200, 200 };
+					lineB2={ 300, 200 };
+
+					 dv2 = lineB - lineA;
+
+					normalised2 = 0.0f;
+
+					normalised2 = sqrt((dv2.x * dv2.x) + (dv2.y * dv2.y));
+					sf::Vector2f unit2;
+					unit2 = { dv2 / normalised2 };
+
+					sf::Vertex rayline[] =
 					{
-						circle = true;
-						box = false;
-					}
-					else
+						sf::Vertex(lineA2),
+						sf::Vertex(lineB2)
+					};
+
+					
+					ray2.p = { lineA2.x,lineA2.y };
+					ray2.t = normalised2;
+					ray2.d = { unit2.x,unit2.y };
+
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+				{
+					box = false;
+					circle = true;
+					rayBool = false;
+
+					//ray 2
+					lineA2 = { 200, 200 };
+					lineB2 = { 300, 200 };
+
+					dv2 = lineB - lineA;
+
+					normalised2 = 0.0f;
+
+					normalised2 = sqrt((dv2.x * dv2.x) + (dv2.y * dv2.y));
+					sf::Vector2f unit2;
+					unit2 = { dv2 / normalised2 };
+
+					sf::Vertex rayline[] =
 					{
-						circle = false;
-						box = true;
-					}
+						sf::Vertex(lineA2),
+						sf::Vertex(lineB2)
+					};
+
+
+					ray2.p = { lineA2.x,lineA2.y };
+					ray2.t = normalised2;
+					ray2.d = { unit2.x,unit2.y };
+
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+				{
+					box = false;
+					circle = false;
+					rayBool = true;
+
+					//ray 2
+					lineA2 = { 200, 200 };
+					lineB2 = {static_cast<sf::Vector2f>(sf::Mouse::getPosition(window))};
+
+					dv2 = lineB - lineA;
+
+					normalised2 = 0.0f;
+
+					normalised2 = sqrt((dv2.x * dv2.x) + (dv2.y * dv2.y));
+					sf::Vector2f unit2;
+					unit2 = { dv2 / normalised2 };
+
+					sf::Vertex rayline[] =
+					{
+						sf::Vertex(lineA2),
+						sf::Vertex(lineB2)
+					};
+
+
+					ray2.p = { lineA2.x,lineA2.y };
+					ray2.t = normalised2;
+					ray2.d = { unit2.x,unit2.y };
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 				{
@@ -416,8 +516,76 @@ int main()
 				capsuleBody.setOutlineColor(sf::Color::White);
 				capsuleBottom.setOutlineColor(sf::Color::White);
 			}
+
+			if (circleBro.getGlobalBounds().intersects(triangle.getGlobalBounds()))
+			{
+				triangle.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				triangle.setOutlineColor(sf::Color::White);
+			}
 		}
 		
+		if (rayBool)
+		{
+			//ray 2
+			lineA2 = { static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)) };
+			lineB2 = {300,200};
+
+			dv2 = lineB - lineA;
+
+			normalised2 = 0.0f;
+
+			normalised2 = sqrt((dv2.x * dv2.x) + (dv2.y * dv2.y));
+
+			unit2 = { dv2 / normalised2 };
+
+			ray2.p = { lineA2.x,lineA2.y };
+			ray2.t = normalised2;
+			ray2.d = { unit2.x,unit2.y };
+
+			rayline[0] = sf::Vertex(lineA2);
+		
+			rayline[1] = sf::Vertex(lineB2);
+			
+
+			result = c2RaytoAABB(ray2, aabb_npc, &raycast2);
+			if (result)
+			{
+				boundBox2.boxBody.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				boundBox2.boxBody.setOutlineColor(sf::Color::White);
+			}
+
+			result = c2RaytoCapsule(ray2, capsule , &raycast2);
+			if (result)
+			{
+				capsuleCap.setOutlineColor(sf::Color::Red);
+				capsuleBody.setOutlineColor(sf::Color::Red);
+				capsuleBottom.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				capsuleCap.setOutlineColor(sf::Color::White);
+				capsuleBody.setOutlineColor(sf::Color::White);
+				capsuleBottom.setOutlineColor(sf::Color::White);
+			}
+
+			result = c2RaytoCircle(ray2,circleman,&raycast2);
+			if (result)
+			{
+				circleBro.setOutlineColor(sf::Color::Red);
+			}
+			else
+			{
+				circleBro.setOutlineColor(sf::Color::White);
+			}
+			
+		}
+	
 		
 	
 
@@ -439,6 +607,7 @@ int main()
 		window.draw(circleBro);
 		window.draw(circleBro2);
 
+		window.draw(rayline , 2, sf::Lines);
 		// Update the window
 		window.display();
 	}
